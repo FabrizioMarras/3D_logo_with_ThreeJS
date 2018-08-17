@@ -1,4 +1,6 @@
 # 3D_logo_with_ThreeJS
 3D Logo while learning Three JS library
 
-First Commit with Atom
+01. First Commit with Atom
+
+02. First Cube on a plane + lights

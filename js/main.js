@@ -118,16 +118,16 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
             color: 'rgb(120, 120, 120)',
             side: THREE.DoubleSide
         } ); // material to color the Box Object - Three.js comes with several materials, to keep things simple for now we only provide a color. This works the same way that colors work in CSS or Photoshop (hex colors)
-        var cube = new THREE.Mesh(
+        var mesh = new THREE.Mesh(
           geometry,
           material
         ); // The third thing we need is a Mesh. A mesh is an object that takes a geometry, and applies a material to it, which we then can insert to our scene, and move freely around.
 
         // ADD SHADOWS 04 - allow the object to receive SHADOWS
-        cube.receiveShadow = true;
+        mesh.receiveShadow = true;
 
 
-        return cube
+        return mesh
   };
 
   // dedicated function that create the sphere Object - geometry, material and the mesh are created - this is placed inside the pointLight object so we can visualise the light as it is a sphere..
@@ -137,11 +137,11 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
         var material = new THREE.MeshBasicMaterial( {
             color: 'rgb(250, 250, 250)'
         } ); // material to color the Sphere Object - Three.js comes with several materials, to keep things simple for now we only provide a color. This works the same way that colors work in CSS or Photoshop (hex colors) - changing MeshBasicMaterial from MeshPhongMaterial, enable us to use the sphere as it is the source of light to bring shades to the object.
-        var cube = new THREE.Mesh(
+        var mesh = new THREE.Mesh(
           geometry,
           material
         ); // The third thing we need is a Mesh. A mesh is an object that takes a geometry, and applies a material to it, which we then can insert to our scene, and move freely around.
-        return cube
+        return mesh
   };
 
 
@@ -153,6 +153,9 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
    // ADD SHADOWS 02 - tell the light to cast SHADOWS
    light.castShadow = true;
 
+   light.shadow.bias = 0.001; // check this parameter on a casa by case basis, it is useful to remove a glitch when using shadows, which makes the shadow disappear in a line close to the object receiving the shadow.
+
+   light.shadow.mapSize.width = 2048; // standard value is 1024. this value increases the resolution of the shadows...the higher the better, but careful to not go too high for rendering issues.
 
    return light;
 

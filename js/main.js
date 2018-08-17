@@ -118,7 +118,7 @@ function init() {
    var light = new THREE.PointLight(0xffffff, intensity);
    // ADD SHADOWS 02 - tell the light to cast SHADOWS
    light.castShadow = true;
-   light.shadow.bias = 0.001; // check this parameter on a casa by case basis, it is useful to remove a glitch when using shadows, which makes the shadow disappear in a line close to the object receiving the shadow.
+   light.shadow.bias = 0.01; // check this parameter on a casa by case basis, it is useful to remove a glitch when using shadows, which makes the shadow disappear in a line close to the object receiving the shadow.
    light.shadow.mapSize.width = 2048;
    light.shadow.mapSize.height = 2048; // standard value is 1024. this value increases the resolution of the shadows...the higher the better, but careful to not go too high for rendering issues.
    return light;

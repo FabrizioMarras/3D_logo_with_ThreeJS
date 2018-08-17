@@ -1,32 +1,25 @@
 // create an initialisation function containing all the THREE JS material:
-function init() {
-  // To actually be able to display anything with three.js, we need three things: scene, camera and renderer, so that we can render the scene with camera.
+function init() { // To actually be able to display anything with three.js, we need three things: scene, camera and renderer, so that we can render the scene with camera.
 
 // **********************************
-// CREATING VARIABLES FOR EVERYOBJECT
+// VARIABLES - Initialise OBJECTs
 // **********************************
 
-  // SCENE
-  var scene = new THREE.Scene();
-
-// Initiate GUI - controllers on the browser window.
-  var gui = new dat.GUI();
-
-// create a condition to be able to enable the fog if wanted:
-  var enableFog = false;
-
-  if (enableFog) {
-  scene.fog = new THREE.FogExp2(0x222222, 0.2)// adding some fog if needed - first value is the color, second is the intensity.
-  }
-
-  var box= getBox(1, 1, 1);
+  var scene = new THREE.Scene(); // create the scene.
+  var gui = new dat.GUI(); // Initiate GUI - controllers on the browser window.
+  var enableFog = false; // create a condition to be able to enable the fog.
+    if (enableFog) { // fog is like a gradient between plane and background.
+    scene.fog = new THREE.FogExp2(0x222222, 0.2)// adding some fog if needed - first value is the color, second is the intensity.
+    }
+  // 3D Objects
+  var box= getBox(1, 1, 1); // the number gives the width height and depth of the object.
   var plane = getPlane (20); // the number give the size of the plane...bigger number, bigger plane.
   var pointLight = getPointLight(1); // calling the getPointLight function and giving an intensity of 1.
   var sphere = getSphere(0.05); // a small sphere - size = 0.05 to symbolise the light in our ascene
 
-  // **********************************
-  // CREATING PARAMETERS FOR EVERY VARIABLE
-  // **********************************
+// **********************************
+// CREATING PARAMETERS FOR EVERY VARIABLE
+// **********************************
 
   box.position.y = box.geometry.parameters.height/2; // this is in order to position the box on top of the plane and not half way through. but in order to do not type values if the box size changes we get the size of the box. So we need to check the box parameters and place the box in a way that it is sitting on the plane. By using (box.geometry.parameters.height/2) everytime the box changes its height, the box will be still laying on top of the plane.
 

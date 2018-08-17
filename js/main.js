@@ -9,6 +9,9 @@ function init() {
   // SCENE
   var scene = new THREE.Scene();
 
+// Initiate GUI - controllers on the browser window.
+  var gui = new dat.GUI();
+
 // create a condition to be able to enable the fog if wanted:
   var enableFog = false;
 
@@ -29,9 +32,17 @@ function init() {
 
   plane.rotation.x = Math.PI/2; // ThreeJS uses radius and not degrees for the rotations. so for 90 degrees angle i need to use a bit of math to calculate it. MAth.PI should give me the value of Pi, and dividing it by 2 should give me the 90Degrees i am looking for.
 
+// changing position of the pointLight.
   pointLight.position.x = 1.25;
-  pointLight.position.y = 2.25;// changing position of the pointLight.
+  pointLight.position.y = 2.25;
   pointLight.position.z = 1.25;
+// changing intensity of the pointLight.
+  pointLight.intensity = 2;
+
+// adding the controller to gui with the add method - add the object to control, the property to control, and the ranges/limits of the controller
+  gui.add(pointLight, 'intensity', 0, 5);
+  gui.add(pointLight.position, 'x', -5, 5);
+  gui.add(pointLight.position, 'y', 0.1, 5);
 
   // **********************************
   // ADDING EVERY VARIABLES TO THE SCENE or to eachother - child/parent relationship
@@ -60,6 +71,8 @@ function init() {
 
 // RENDERER
   var renderer = new THREE.WebGLRenderer();
+  // ADD SHADOWS 01 - enabling the shadows in the RENDERER
+  renderer.shadowMap.enabled = true;
   // In addition to creating the renderer instance, we also need to set the size at which we want it to render our app. It's a good idea to use the width and height of the area we want to fill with our app:
   renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -68,7 +81,10 @@ function init() {
   // add the renderer element to our HTML document. This is a <canvas> element the renderer uses to display the scene to us.
   document.getElementById('webgl').appendChild(renderer.domElement); // appending the renderer to the div.
 
-  update(renderer, scene, camera); // call the function update which allow to continuously render the scene without the need to reload the page.
+// ORBIT CONTROL - to orbit around the object with the camera by dragging or clicking.
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  update(renderer, scene, camera, controls); // call the function update which allow to continuously render the scene without the need to reload the page - adding also the controls to the update function will ensure the screen to update after each move.
 
 }; // init function
 
@@ -87,6 +103,10 @@ function init() {
           geometry,
           material
         ); // The third thing we need is a Mesh. A mesh is an object that takes a geometry, and applies a material to it, which we then can insert to our scene, and move freely around.
+
+        // ADD SHADOWS 03 - allow the object to cast  SHADOWS
+        cube.castShadow = true;
+
         return cube
   };
 
@@ -102,6 +122,11 @@ function init() {
           geometry,
           material
         ); // The third thing we need is a Mesh. A mesh is an object that takes a geometry, and applies a material to it, which we then can insert to our scene, and move freely around.
+
+        // ADD SHADOWS 04 - allow the object to receive SHADOWS
+        cube.receiveShadow = true;
+
+
         return cube
   };
 
@@ -120,24 +145,30 @@ function init() {
   };
 
 
-// LIGHTS
+  // LIGHTS
 
-function getPointLight(intensity) {
- var light = new THREE.PointLight(0xffffff, intensity);
+  function getPointLight(intensity) {
+   var light = new THREE.PointLight(0xffffff, intensity);
 
- return light;
+   // ADD SHADOWS 02 - tell the light to cast SHADOWS
+   light.castShadow = true;
 
-}; // point light takes two argument - color whic we are using white, and the second is intensity which is going to be received from the function argument.
+
+   return light;
+
+  }; // point light takes two argument - color whic we are using white, and the second is intensity which is going to be received from the function argument.
 
 
 // **********************************
 // CREATING FUNCTIONS for continuous RENDERING
 // **********************************
-function update(renderer, scene, camera) {
+function update(renderer, scene, camera, controls) {
   renderer.render( scene, camera ); // renderer
 
+  controls.update(); // UPDATE METHOD applied to the controls in order to be able to control the camera with dragging.
+
   requestAnimationFrame(function() {
-    update(renderer, scene, camera);// calling back the animation function.
+    update(renderer, scene, camera, controls);// calling back the animation function.
   }); // requestAnimationFrame is a method on the window object -  It's similar to the set interval in a sense that it periodically calls the given function, but it also performs sorts and performs optimizations, regarding when a frame gets painted, which makes it preferable to use this function over set interval function when working with animations.
 };
 

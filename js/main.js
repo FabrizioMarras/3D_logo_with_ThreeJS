@@ -60,7 +60,7 @@ function init() {
   camera.lookAt(new THREE.Vector3(0, 0, 0)); // the object is centered in the middle of the screen.
 
 // CREATE 03 - the RENDERER
-  var renderer = new THREE.WebGLRenderer();
+  var renderer = new THREE.WebGLRenderer({ antialias: true });
   // ADD SHADOWS 01 - enabling the shadows in the RENDERER
   renderer.shadowMap.enabled = true;
   renderer.setSize( window.innerWidth, window.innerHeight );// set the size of the 3D environment.
